@@ -1,9 +1,12 @@
 package com.example.ForumHubChallengeBackEnd.service;
 
+import com.example.ForumHubChallengeBackEnd.dto.TopicCreateDTO;
+import com.example.ForumHubChallengeBackEnd.exception.DuplicateTopicException;
 import com.example.ForumHubChallengeBackEnd.model.TopicModel;
 import com.example.ForumHubChallengeBackEnd.repository.TopicRepository;
-import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,40 +28,49 @@ public class TopicService {
         return topicRepository.findById(id);
     }
 
-    public TopicModel create(String title, String message, Long authorId, Long courseId) {
-        // Verifica se já existe um tópico com o mesmo título e mensagem
-        var existingTopic = topicRepository.findByTitle(title);
+    public TopicModel create(@Valid TopicCreateDTO data) {
+        var existingTopic = topicRepository.findByTitle(data.title());
         if (existingTopic != null) {
-           throw new RuntimeException();
+            throw new DuplicateTopicException("A topic with this title and message already exists.");
         }
 
-        // Cria uma nova instância de TopicModel
         var newTopic = new TopicModel();
-        newTopic.setTitle(title);
-        newTopic.setMessage(message);
+        newTopic.setTitle(data.title());
+        newTopic.setMessage(data.message());
         newTopic.setCreationDate(LocalDateTime.now());
-        newTopic.setStatus("NAO_RESPONDIDO"); // Definindo o status inicial
-        //newTopic.setAuthorId(authorId);
-        //newTopic.setCourseId(courseId);
+        newTopic.setStatus(data.status());
+        newTopic.setAuthorId(data.authorId());
+        newTopic.setCourseId(data.courseId());
 
-        // Salva o novo tópico no banco de dados usando o repositório
         return topicRepository.save(newTopic);
     }
 
-    public TopicModel updateTopic(Long id, String newTitle, String newMessage) {
+    public TopicModel updateTopic(Long id,  TopicCreateDTO data) {
         var existingTopic = topicRepository.findById(id).orElse(null);
 
         if (existingTopic == null) {
             return null;
         }
-        if (newTitle != null && !newTitle.isBlank()) {
-            existingTopic.setTitle(newTitle);
+        if (data.title() != null && !data.title().isBlank()) {
+            existingTopic.setTitle(data.title());
         }
-        if (newMessage != null && !newMessage.isBlank()) {
-            existingTopic.setMessage(newMessage);
+        if (data.message() != null && !data.message().isBlank()) {
+            existingTopic.setMessage(data.message() );
+        }
+
+        if (data.status() != null && !data.status().isBlank()) {
+            existingTopic.setStatus(data.status() );
         }
 
         return topicRepository.save(existingTopic);
+    }
+
+    public boolean deleteTopic(Long id) {
+        if (topicRepository.existsById(id)) {
+            topicRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 

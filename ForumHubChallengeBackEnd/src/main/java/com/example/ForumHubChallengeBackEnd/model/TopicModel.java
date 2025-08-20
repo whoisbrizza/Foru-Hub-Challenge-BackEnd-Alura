@@ -24,6 +24,7 @@ public class TopicModel {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @Column(name = "status")
     private String status;
 
     @Column(name = "author")

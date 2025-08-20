@@ -16,7 +16,13 @@ public record TopicCreateDTO(
         String message,
         @JsonAlias("status")
         @NotBlank
-        String status
+        String status,
+        @JsonAlias("authorId")
+        @NotNull
+        Long authorId,
+        @JsonAlias("courseId")
+        @NotNull
+        Long courseId
 
 ) {
 }

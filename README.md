@@ -7,9 +7,9 @@ Este projeto é o backend de uma aplicação de fórum, desenvolvido como parte 
 ## Funcionalidades
 
 -   **CRUD de Tópicos:** Os usuários podem criar, ler, atualizar e excluir tópicos de discussão.
--  (doing) **Autenticação e Autorização:** Segurança garantida com autenticação via token JWT.
--  (doing) **Regras de Negócio:** Validações para garantir que não haja tópicos duplicados e que apenas o autor possa modificar seu próprio conteúdo.
--  (doing) **Relacionamento entre Entidades:** Associações entre usuários, tópicos e respostas, permitindo uma estrutura de dados robusta e eficiente.
+-   **Autenticação e Autorização:** Segurança garantida com autenticação via token JWT.
+-   **Regras de Negócio:** Validações para garantir que não haja tópicos duplicados e que apenas o autor possa modificar seu próprio conteúdo.
+-   **Relacionamento entre Entidades:** Associações entre usuários, tópicos e respostas, permitindo uma estrutura de dados robusta e eficiente.
 -   **API RESTful:** Toda a comunicação é feita através de uma API REST, seguindo as melhores práticas do mercado.
 
 ## Tecnologias Utilizadas
@@ -63,3 +63,10 @@ mvn spring-boot:run
 A documentação da API, gerada pelo SpringDoc, estará disponível em:
 
 Swagger UI: http://localhost:8080/swagger-ui.html
+
+
+### Garanta que seu banco de dados MSQL esteja configurado e tenha as tabelas de acordo com a imagem e tenha a tabela referente aos usuarios
+
+
+<img width="1731" height="1851" alt="diagrama_banco_de_dados_forumhub" src="https://github.com/user-attachments/assets/43ef0282-8646-49e6-bccc-db44e8542921" />
+
